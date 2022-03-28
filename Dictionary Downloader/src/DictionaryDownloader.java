@@ -25,7 +25,10 @@ import org.jsoup.select.Elements;
 public class DictionaryDownloader {
 
     public static void main(String[] args) throws Exception {
+        System.out.println("\n\nGenerating Full Dictionary...");
         generate_all("dictionary.txt");
+
+        System.out.println("\n\nGenerating 5-letter Dictionary...");
         generate_by_length("dictionary5.txt", 5);
 
         // Example Usage: [Words that start and end with the same letter]
@@ -53,16 +56,26 @@ public class DictionaryDownloader {
         BufferedWriter outfile = new BufferedWriter(new FileWriter(String.format("Dictionaries/%s", filename)));
         try {
             for (char letter = 'a'; letter <= 'z'; ++letter) {
-                Document doc = Jsoup.connect("https://scrabble.merriam.com/words/start-with/" + letter).get();
-                Elements ul = doc.select("ul.wres_ul li");
-                for (Element li : ul) {
-                    String word = li.text();
-                    if (condition.test(word)) {
-                        outfile.write(word);
-                        outfile.write('\n');
+                System.out.printf("\nBrowsing '%c' words...\n", letter);
 
-                        //System.out.println(word);
+                for (int page = 1; true; ++page) {
+                    String url = String.format("https://scrabble.merriam.com/browse/%c/%d", letter, page);
+                    //System.out.printf("\nURL: %s\n", url);
+
+                    Document doc = Jsoup.connect(url).get();
+                    Elements ul = doc.select("div.entries ul li");
+                    for (Element li : ul) {
+                        String word = li.text();
+
+                        if (condition.test(word)) {
+                            outfile.write(word);
+                            outfile.write('\n');
+                            //System.out.printf("\t%s\n", word);
+                        }
                     }
+
+                    if (doc.select("div.pagination a.next").isEmpty())
+                        break;
                 }
             }
         } finally {
