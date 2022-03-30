@@ -65,8 +65,10 @@ std::string read_guess(const Dictionary& dict, const std::size_t length)
 
 void play_game()
 {
-	const Dictionary dict{ load_dictionary("../../Dictionaries/dictionary5.txt") };
-	WordleSim sim{ dict };
+	const Dictionary dict_a{ load_dictionary("../../Dictionaries/wordle-answers.txt") };
+	const Dictionary dict_g{ load_dictionary("../../Dictionaries/wordle-guesses.txt") };
+
+	WordleSim sim{ dict_a };
 	Results results{ sim.word_length() };
 
 	std::cout << "\n==== WORDLE SIM ====\n";
@@ -76,7 +78,7 @@ void play_game()
 	{
 		std::cout << "\n\n-- Guess " << (sim.tries() + 1) << " --\n";
 
-		const std::string guess{ read_guess(dict, sim.word_length()) };
+		const std::string guess{ read_guess(dict_g, sim.word_length()) };
 
 		results = sim.make_guess(guess);
 
