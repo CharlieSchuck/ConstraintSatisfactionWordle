@@ -26,10 +26,10 @@ public class DictionaryDownloader {
 
     public static void main(String[] args) throws Exception {
         System.out.println("\n\nGenerating Full Dictionary...");
-        generate_all("dictionary.txt");
+        generate_all("scrabble-dict.txt");
 
         System.out.println("\n\nGenerating 5-letter Dictionary...");
-        generate_by_length("dictionary5.txt", 5);
+        generate_by_length("scrabble-dict5.txt", 5);
 
         // Example Usage: [Words that start and end with the same letter]
         // generate_if("test.txt", (String word) -> word.charAt(0) == word.charAt(word.length() - 1));
