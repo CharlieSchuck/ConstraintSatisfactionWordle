@@ -53,7 +53,7 @@ public class DictionaryDownloader {
         Given a Filename and a Predicate, writes all words meeting the given condition to the output file.
     */
     public static void generate_if(String filename, Predicate<String> condition) throws Exception {
-        BufferedWriter outfile = new BufferedWriter(new FileWriter(String.format("Dictionaries/%s", filename)));
+        BufferedWriter outfile = new BufferedWriter(new FileWriter(String.format("../Dictionaries/%s", filename)));
         try {
             for (char letter = 'a'; letter <= 'z'; ++letter) {
                 System.out.printf("\nBrowsing '%c' words...\n", letter);

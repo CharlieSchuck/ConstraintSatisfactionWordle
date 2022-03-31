@@ -1,6 +1,0 @@
-{
-    "java.project.referencedLibraries": [
-        "lib/**/*.jar",
-        "Dictionary Downloader/lib/jsoup-1.14.3.jar"
-    ]
-}
