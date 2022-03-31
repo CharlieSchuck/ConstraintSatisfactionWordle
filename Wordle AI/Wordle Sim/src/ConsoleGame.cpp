@@ -1,5 +1,6 @@
 #include "WordleSim.h"
 
+#include <algorithm>
 #include <iostream>
 #include <sstream>
 
@@ -58,7 +59,7 @@ std::string read_guess(const Dictionary& dict, const std::size_t length)
 		make_lowercase(guess);
 
 		// Check if the Dictionary contains the Guess.
-		if (std::find(dict.begin(), dict.end(), guess) == dict.end())
+		if (!std::binary_search(dict.begin(), dict.end(), guess))
 		{
 			std::cout << "\nERROR! \"" << guess << "\" could not be found in dictionary.\n";
 			continue;
