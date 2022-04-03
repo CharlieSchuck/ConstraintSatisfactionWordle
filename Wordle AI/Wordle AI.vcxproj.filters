@@ -15,21 +15,27 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ConsoleGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\WordleSim.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ConsoleGame.cpp">
+    <ClCompile Include="src\WordleAI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\ConsoleGame.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\WordleSim.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ConsoleGame.h">
+    <ClInclude Include="src\WordleAI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,7 +1,7 @@
 /*
-	Eric Grandizio
-	Wordle Sim
-	3/27/2022
+	Charles Schuck - Eric Grandizio
+	
+	Wordle AI / Wordle Sim
 */
 
 // ================================================================================================================================ //
@@ -9,8 +9,32 @@
 #include <exception>
 #include <iostream>
 
+#include "WordleAI.h"
 #include "WordleSim.h"
 #include "ConsoleGame.h"
+
+// ================================================================================================================================ //
+
+/*
+	The Main function for the Wordle AI.
+*/
+void run_ai()
+{
+	WordleAI ai{};
+
+	/*=== TODO: Implement Wordle AI ===*/
+}
+
+// -------------------------------------------------------------------------------------------------------------------------------- //
+
+/*
+	The Main function for the Wordle Sim.
+	Simply runs the `play_game` function from the ConsoleGame.h file.
+*/
+void run_sim()
+{
+	play_game();
+}
 
 // ================================================================================================================================ //
 
@@ -20,10 +44,10 @@
 */
 int main()
 {
-	// Attempt to launch the Wordle Sim.
+	// Attempt to launch the Wordle AI or Sim.
 	try
 	{
-		play_game();
+		run_sim(); // Should call either `run_sim` or `run_ai` from here.
 		return 0;
 	}
 	// Log an error message if an exception occured.

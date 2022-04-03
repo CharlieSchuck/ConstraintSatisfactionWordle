@@ -81,10 +81,10 @@ std::string read_guess(const Dictionary& dict, const std::size_t length)
 void play_game()
 {
 	// Dictionary of Hidden Words to be chosen.
-	const Dictionary dict_a{ load_dictionary("../../Dictionaries/wordle-answers.txt") };
+	const Dictionary dict_a{ load_dictionary("../Dictionaries/wordle-answers.txt") };
 
 	// Dictionary of Valid Word to be guessed.
-	const Dictionary dict_g{ load_dictionary("../../Dictionaries/wordle-guesses.txt") };
+	const Dictionary dict_g{ load_dictionary("../Dictionaries/wordle-guesses.txt") };
 
 
 	WordleSim sim{ dict_a };
