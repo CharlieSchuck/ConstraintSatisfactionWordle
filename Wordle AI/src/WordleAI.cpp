@@ -13,7 +13,7 @@ WordleAI::WordleAI() {
 	
 }
 
-std::string& WordleAI::makeGuess() {
+std::string WordleAI::makeGuess() {
 
 }
 

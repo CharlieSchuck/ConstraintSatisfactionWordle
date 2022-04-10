@@ -8,7 +8,7 @@ class WordleAI
 public:
 	Dictionary dict;
 	WordleAI();
-	std::string& makeGuess();
+	std::string makeGuess();
 	void updateDictionary(Results results, std::string& guess);
 
 	template<typename T>
