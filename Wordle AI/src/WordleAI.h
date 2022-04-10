@@ -9,7 +9,7 @@ public:
 	Dictionary dict;
 	WordleAI();
 	std::string makeGuess();
-	void updateDictionary(Results results, std::string& guess);
+	void updateDictionary(Results feedback, std::string& guess);
 
 	template<typename T>
 	void erase_if(T condition) {

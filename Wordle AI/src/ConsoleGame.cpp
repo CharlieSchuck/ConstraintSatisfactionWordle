@@ -88,22 +88,22 @@ void play_game()
 
 
 	WordleSim sim{ dict_a }; 
-	Results results{ sim.word_length() };
+	Results feedback{ sim.word_length() };
 
 	std::cout << "\n==== WORDLE SIM ====\n";
 	std::cout << "\nWord Length is " << sim.word_length() << '\n';
 
 	// Play continues infinitely until the Game is Won.
-	while (!results.is_won())
+	while (!feedback.is_won())
 	{
 		std::cout << "\n\n-- Guess " << (sim.tries() + 1) << " --\n";
 
 		const std::string guess{ read_guess(dict_g, sim.word_length()) };
 
-		results = sim.make_guess(guess);
+		feedback = sim.make_guess(guess);
 
 		std::cout << "  Guess: " << guess << '\n';
-		std::cout << "Results: " << results.str() << '\n';
+		std::cout << "Results: " << feedback.str() << '\n';
 	}
 
 	std::cout << "\n\n==== YOU WIN! ====\n\n";

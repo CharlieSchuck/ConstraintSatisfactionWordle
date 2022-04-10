@@ -10,7 +10,7 @@
 // Constructor (takes the number of letters in the guess).
 Results::Results(const std::size_t count)
 	:
-	results(count)
+	feedbacks(count)
 {}
 
 // -------------------------------------------------------------------------------------------------------------------------------- //
@@ -18,9 +18,9 @@ Results::Results(const std::size_t count)
 // Returns true/false depending on if all letters are Correct.
 bool Results::is_won() const noexcept
 {
-	for (const Result result : results)
+	for (const Feedback feedback : feedbacks)
 	{
-		if (result != Result::Correct) return false;
+		if (feedback.result != Result::Correct) return false;
 	}
 	return true;
 }
@@ -36,7 +36,7 @@ std::string Results::str() const
 	for (std::size_t i{}; i < size(); ++i)
 	{
 		// Result as Numerical Index.
-		const auto result_i{ std::size_t(results.at(i)) };
+		const auto result_i{ std::size_t(feedbacks.at(i).result) };
 
 		tmp.at(i) = chars.at(result_i);
 	}
@@ -46,17 +46,17 @@ std::string Results::str() const
 // -------------------------------------------------------------------------------------------------------------------------------- //
 
 // Returns a reference to the Result at index i.
-Result& Results::at(const std::size_t i)
+Feedback& Results::at(const std::size_t i)
 {
-	return results.at(i);
+	return feedbacks.at(i);
 }
 
 // -------------------------------------------------------------------------------------------------------------------------------- //
 
 // Returns a const reference to the Result at index i.
-const Result& Results::at(const std::size_t i) const
+const Feedback& Results::at(const std::size_t i) const
 {
-	return results.at(i);
+	return feedbacks.at(i);
 }
 
 // -------------------------------------------------------------------------------------------------------------------------------- //
@@ -64,7 +64,7 @@ const Result& Results::at(const std::size_t i) const
 // Returns the number of letters in the guess.
 std::size_t Results::size() const noexcept
 {
-	return results.size();
+	return feedbacks.size();
 }
 
 // -------------------------------------------------------------------------------------------------------------------------------- //
@@ -72,7 +72,7 @@ std::size_t Results::size() const noexcept
 // Returns the begin iterator for the underlying container.
 Results::iterator Results::begin() const noexcept
 {
-	return results.cbegin();
+	return feedbacks.cbegin();
 }
 
 // -------------------------------------------------------------------------------------------------------------------------------- //
@@ -80,7 +80,7 @@ Results::iterator Results::begin() const noexcept
 // Returns the end iterator for the underlying container.
 Results::iterator Results::end() const noexcept
 {
-	return results.cend();
+	return feedbacks.cend();
 }
 
 // ================================================================================================================================ //
@@ -130,7 +130,7 @@ Results WordleSim::make_guess(const std::string_view guess)
 		throw std::runtime_error("Guess size does not equal Word size.");
 
 	// All Results are initialized to Invalid by default.
-	Results results{ word.size() };
+	Results feedback{ word.size() };
 
 	// For all Letters in the Hidden Word.
 	for (std::size_t wi{}; wi < word.size(); ++wi)
@@ -160,7 +160,7 @@ Results WordleSim::make_guess(const std::string_view guess)
 				{
 					// Assign the Result to the given letter.
 					// max() is used to prevent overwriting Correct results with Exists.
-					results.at(gi) = std::max(results.at(gi), result);
+					feedback.at(gi).result = std::max(feedback.at(gi).result, result);
 					
 					// Decrease the remaining occurrences of the letter by 1.
 					--count;
@@ -174,7 +174,7 @@ Results WordleSim::make_guess(const std::string_view guess)
 	}
 
 	++try_count;
-	return results;
+	return feedback;
 }
 
 // -------------------------------------------------------------------------------------------------------------------------------- //

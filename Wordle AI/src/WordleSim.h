@@ -18,10 +18,19 @@ enum class Result
 
 // -------------------------------------------------------------------------------------------------------------------------------- //
 
+// A combination of a Letter and its Result.
+struct Feedback
+{
+	char letter;
+	Result result;
+};
+
+// -------------------------------------------------------------------------------------------------------------------------------- //
+
 // Forward-Declaration.
 class WordleSim;
 
-// A Collection of "Result"s.
+// A Collection of "Feedback"s.
 class Results
 {
 	// Allows WordleSim to modify Results to return after each guess.
@@ -29,13 +38,13 @@ class Results
 
 private: // Variables
 
-	// Holds all the individual "Result"s.
-	std::vector<Result> results;
+	// Holds all the individual "Feedback"s.
+	std::vector<Feedback> feedbacks;
 
 public: // Data Structures
 
 	// Type Alias for the iterator returned by begin()/end().
-	using iterator = std::vector<Result>::const_iterator;
+	using iterator = decltype(feedbacks)::const_iterator;
 
 public: // Functions
 
@@ -49,10 +58,10 @@ public: // Functions
 	std::string str() const;
 
 	// Returns a reference to the Result at index i.
-	Result& at(const std::size_t i);
+	Feedback& at(const std::size_t i);
 
 	// Returns a const reference to the Result at index i.
-	const Result& at(const std::size_t i) const;
+	const Feedback& at(const std::size_t i) const;
 	
 	// Returns the number of letters in the guess.
 	std::size_t size() const noexcept;
