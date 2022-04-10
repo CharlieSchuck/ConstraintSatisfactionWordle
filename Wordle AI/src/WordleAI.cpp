@@ -35,7 +35,7 @@ void WordleAI::updateDictionary(Results results, std::string& guess) {
 
 			case Result::Invalid: {
 				erase_if([=](std::string& word) { return word.at(i) == p; });
-				int n = std::count(guess.begin(), guess.end(), p);
+				std::size_t n = std::count(guess.begin(), guess.end(), p);
 				erase_if([=](std::string& word) { return std::count(word.begin(), word.end(), p) == n; });
 				break;
 			}
