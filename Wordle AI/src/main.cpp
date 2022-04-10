@@ -20,7 +20,7 @@
 */
 void run_ai()
 {
-	WordleAI ai{};
+	ai_play();
 
 	/*=== TODO: Implement Wordle AI ===*/
 }
@@ -47,7 +47,7 @@ int main()
 	// Attempt to launch the Wordle AI or Sim.
 	try
 	{
-		run_sim(); // Should call either `run_sim` or `run_ai` from here.
+		run_ai(); // Should call either `run_sim` or `run_ai` from here.
 		return 0;
 	}
 	// Log an error message if an exception occured.

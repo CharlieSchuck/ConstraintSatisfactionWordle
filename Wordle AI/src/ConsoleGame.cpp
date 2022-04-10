@@ -87,7 +87,7 @@ void play_game()
 	const Dictionary dict_g{ load_dictionary("../Dictionaries/wordle-guesses.txt") };
 
 
-	WordleSim sim{ dict_a };
+	WordleSim sim{ dict_a }; 
 	Results results{ sim.word_length() };
 
 	std::cout << "\n==== WORDLE SIM ====\n";
