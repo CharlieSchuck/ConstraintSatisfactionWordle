@@ -66,7 +66,7 @@ void ai_play() {
 	{
 		std::cout << "\n\n-- Guess " << (sim.tries() + 1) << " --\n";
 
-		std::string& guess = ai.makeGuess();
+		std::string guess = ai.makeGuess();
 		results = sim.make_guess(guess);
 		ai.updateDictionary(results, guess);
 
