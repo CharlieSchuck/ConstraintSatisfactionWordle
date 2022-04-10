@@ -34,9 +34,9 @@ void WordleAI::updateDictionary(Results results, std::string& guess) {
 			}
 
 			case Result::Invalid: {
-				//multiple of the same letter in the word.
-
-				//erase_if([=](std::string& word) { word.at(i) == p; });
+				erase_if([=](std::string& word) { word.at(i) == p; });
+				int n = std::count(guess.begin(), guess.end(), p);
+				erase_if([=](std::string& word) { std::count(word.begin(), word.end(), p) == n; });
 				break;
 			}
 			
