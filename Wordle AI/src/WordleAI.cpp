@@ -24,19 +24,19 @@ void WordleAI::updateDictionary(Results results, std::string& guess) {
 		
 		switch (q) {
 			case Result::Correct: {
-				erase_if([=](std::string& word) { word.at(i) != p; });
+				erase_if([=](std::string& word) { return word.at(i) != p; });
 				break;
 			}
 
 			case Result::Exists: {
-				erase_if([=](std::string& word) { word.at(i) == p; });
+				erase_if([=](std::string& word) { return word.at(i) == p; });
 				break;
 			}
 
 			case Result::Invalid: {
-				erase_if([=](std::string& word) { word.at(i) == p; });
+				erase_if([=](std::string& word) { return word.at(i) == p; });
 				int n = std::count(guess.begin(), guess.end(), p);
-				erase_if([=](std::string& word) { std::count(word.begin(), word.end(), p) == n; });
+				erase_if([=](std::string& word) { return std::count(word.begin(), word.end(), p) == n; });
 				break;
 			}
 			
