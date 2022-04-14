@@ -132,9 +132,14 @@ Results WordleSim::make_guess(const std::string_view guess)
 	// All Results are initialized to Invalid by default.
 	Results feedback{ word.size() };
 
+
 	// For all Letters in the Hidden Word.
 	for (std::size_t wi{}; wi < word.size(); ++wi)
 	{
+		// Assign letter from guess to feedback.
+		feedback.at(wi).letter = guess.at(wi);
+
+
 		// Hidden Word's current character as Lowercase.
 		const auto wc{ std::tolower(word.at(wi)) };
 		
