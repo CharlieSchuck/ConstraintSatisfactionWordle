@@ -24,6 +24,9 @@ public: // Functions
 	// Returns a Guess from the Dictionary.
 	std::string makeGuess(const std::size_t try_count);
 
+	// Returns a Random Word from the Dictionary.
+	std::string randomGuess();
+
 	// Analyzes the Feedback on the given guess and updates the Dictionary accordingly.
 	void updateDictionary(const Results& feedback, const std::string& guess);
 
