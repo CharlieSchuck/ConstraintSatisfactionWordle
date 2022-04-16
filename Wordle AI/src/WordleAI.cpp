@@ -76,22 +76,28 @@ void WordleAI::updateDictionary(const Results& feedback, const std::string& gues
 		{
 			case Result::Correct:
 			{
-				erase_if([=](std::string& word) { return word.at(i) != letter; });
+				erase_if([=](const std::string& word) { return word.at(i) != letter; });
+
+				const auto count{ std::count(guess.begin(), guess.end(), letter) };
+				erase_if([=](const std::string& word) { return std::count(word.begin(), word.end(), letter) < count; });
 			}
 			break;
 
 			case Result::Exists:
 			{
-				erase_if([=](std::string& word) { return word.at(i) == letter; });
+				erase_if([=](const std::string& word) { return word.at(i) == letter; });
+
+				const auto count{ std::count(guess.begin(), guess.end(), letter) };
+				erase_if([=](const std::string& word) { return std::count(word.begin(), word.end(), letter) < count; });
 			}
 			break;
 
 			case Result::Invalid:
 			{
-				erase_if([=](std::string& word) { return word.at(i) == letter; });
+				erase_if([=](const std::string& word) { return word.at(i) == letter; });
 
 				const auto count{ std::count_if(feedback.begin(), feedback.end(), [=](const Feedback fb) { return (fb.letter == letter) && (fb.result != result); }) };
-				erase_if([=](std::string& word) { return std::count(word.begin(), word.end(), letter) != count; });
+				erase_if([=](const std::string& word) { return std::count(word.begin(), word.end(), letter) != count; });
 			}
 			break;
 		}
@@ -118,7 +124,7 @@ void ai_play()
 	std::cout << "\nWord Length is " << sim.word_length() << '\n';
 
 	// Play continues infinitely until the Game is Won.
-	while (!feedback.is_won())
+	for (int i = 0; i < 6 && !feedback.is_won(); i++)
 	{
 		std::cout << "\n-- Turn " << (sim.tries() + 1) << " --\n";
 		std::cout << "AI Dictionary Size: " << ai.dict.size() << "\n";
@@ -131,7 +137,8 @@ void ai_play()
 		
 		ai.updateDictionary(feedback, guess);
 	}
-	std::cout << "\n==== YOU WIN! ====\n\n";
+	if(feedback.is_won()) std::cout << "\n==== YOU WIN! ====\n\n";
+	else std::cout << "\n==== YOU LOSE! ====\n\n";
 
 }
 
