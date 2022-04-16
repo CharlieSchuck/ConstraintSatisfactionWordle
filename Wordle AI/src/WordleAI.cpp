@@ -3,7 +3,6 @@
 #include <random>
 #include <algorithm>
 #include <iostream>
-#include <queue>
 
 #include "WordleSim.h"
 
@@ -18,18 +17,40 @@ WordleAI::WordleAI(const Dictionary& dict_g)
 
 std::string WordleAI::makeGuess(const std::size_t try_count)
 {
-	return randomGuess(); // Override guess implementation.
+	//Let's make a max priority queue, let's assign one point for each unique consonant and two for each unique vowel.
 
-	//Local BEAM! -- find the four guesses that give the most information in the dictionary at hand.
-	//generate dictionaries that are the consequences of each of those guesses... find the four strongest in each of those dictionaries
-	//so on and so forth equal to the number of guesses remaining... 
+	std::size_t topValue = 0;
+	std::string bestGuess = "";
 
 	for (std::size_t i = 0; i < dict.size(); i++)
 	{
+		std::string temp = dict.at(i); 
+		std::size_t value = 0;
+		std::vector<char> letters;
 
+		for (auto &ch : temp) {
+			if (std::find(letters.begin(), letters.end(), ch) == letters.end()) {
+				letters.push_back(ch);
+			}
+		}
+
+		for (char c : letters) {
+			if (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') {
+				value += 2;
+			}
+			else {
+				value += 1;
+			}
+		}
+
+		if (value > topValue) {
+			bestGuess = temp;
+			topValue = value;
+		}
 	}
+	std::cout << bestGuess;
 
-	return ""; //"just to appease the compiler".
+	return bestGuess;
 }
 
 // -------------------------------------------------------------------------------------------------------------------------------- //
