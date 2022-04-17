@@ -38,8 +38,19 @@
     <ClInclude Include="src\WordleAI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\utils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\Dictionaries\scrabble-dict.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="..\Dictionaries\scrabble-dict5.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="..\Dictionaries\wordle-answers.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="..\Dictionaries\wordle-guesses.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
