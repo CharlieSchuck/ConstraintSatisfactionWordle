@@ -19,7 +19,7 @@ public: // Variables
 public: // Functions
 
 	// Constructs the AI with the given Dictionary.
-	WordleAI(const Dictionary& dict_g);
+	WordleAI(const Dictionary& dict_g, const std::size_t word_length);
 
 	// Returns a Guess from the Dictionary.
 	std::string makeGuess(const std::size_t try_count);
@@ -43,5 +43,8 @@ public: // Functions
 
 // Runs the AI on a random word.
 void ai_play();
+
+// Runs the AI on all the words and logs statistics.
+void ai_test();
 
 // ================================================================================================================================ //
