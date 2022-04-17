@@ -9,6 +9,15 @@
 
 // ================================================================================================================================ //
 
+// ==== OPTIONS ====
+// USE_WORDLE		: Plays using Wordle Dictionary.
+// USE_SCRABBLE_5	: Plays using 5-letter Scrabble Dictionary.
+// USE_SCRABBLE		: Plays using full Scrabble Dictionary.
+
+#define USE_WORDLE
+
+// ================================================================================================================================ //
+
 WordleAI::WordleAI(const Dictionary& dict_g, const std::size_t word_length)
 	:
 	dict{ dict_g }
@@ -117,11 +126,20 @@ void WordleAI::updateDictionary(const Results& feedback, [[maybe_unused]] const 
 
 void ai_play()
 {
-	// Dictionary of Hidden Words that can be chosen.
+	// dict_a - Dictionary of Hidden Words that can be chosen.
+	// dict_g - Dictionary of Valid Word that can be guessed.
+#ifdef USE_WORDLE
 	const Dictionary dict_a{ load_dictionary("../Dictionaries/wordle-answers.txt") };
-
-	// Dictionary of Valid Word that can be guessed.
 	const Dictionary dict_g{ load_dictionary("../Dictionaries/wordle-guesses.txt") };
+#endif
+#ifdef USE_SCRABBLE_5
+	const Dictionary dict_a{ load_dictionary("../Dictionaries/scrabble-dict5.txt") };
+	const Dictionary dict_g{ load_dictionary("../Dictionaries/scrabble-dict5.txt") };
+#endif
+#ifdef USE_SCRABBLE
+	const Dictionary dict_a{ load_dictionary("../Dictionaries/scrabble-dict.txt") };
+	const Dictionary dict_g{ load_dictionary("../Dictionaries/scrabble-dict.txt") };
+#endif
 
 	WordleSim sim{ dict_a };
 	WordleAI ai{ dict_g, sim.word_length() };
@@ -129,9 +147,9 @@ void ai_play()
 	std::cout << "\n==== WORDLE AI ====\n";
 	std::cout << "\nWord Length is " << sim.word_length() << '\n';
 
-	// Play continues until the Game is Won or 6 turns have passed.
+	// Play continues until the Game is Won.
 	Results feedback{ sim.word_length() };
-	while (/*(sim.tries() < 6) &&*/ !feedback.is_won())
+	while (!feedback.is_won() /*&& (sim.tries() < 6)*/)
 	{
 		std::cout << "\n-- Turn " << (sim.tries() + 1) << " --\n";
 		std::cout << "AI Dictionary Size: " << ai.dict.size() << "\n";
@@ -160,8 +178,8 @@ void ai_play()
 
 void ai_test()
 {
-#define USE_WORDLE
-
+	// dict_a - Dictionary of Hidden Words that can be chosen.
+	// dict_g - Dictionary of Valid Word that can be guessed.
 #ifdef USE_WORDLE
 	const Dictionary dict_a{ load_dictionary("../Dictionaries/wordle-answers.txt") };
 	const Dictionary dict_g{ load_dictionary("../Dictionaries/wordle-guesses.txt") };
@@ -174,7 +192,6 @@ void ai_test()
 	const Dictionary dict_a{ load_dictionary("../Dictionaries/scrabble-dict.txt") };
 	const Dictionary dict_g{ load_dictionary("../Dictionaries/scrabble-dict.txt") };
 #endif
-
 
 	std::size_t wins{};
 	std::uintmax_t total_turns{};
