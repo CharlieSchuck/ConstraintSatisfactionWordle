@@ -132,24 +132,20 @@ Results WordleSim::make_guess(const std::string_view guess)
 	// All Results are initialized to Invalid by default.
 	Results feedback{ word.size() };
 
-
 	// For all Letters in the Hidden Word.
 	for (std::size_t wi{}; wi < word.size(); ++wi)
 	{
 		// Assign letter from guess to feedback.
 		feedback.at(wi).letter = guess.at(wi);
-
-
-		// Hidden Word's current character as Lowercase.
-		const auto wc{ std::tolower(word.at(wi)) };
 		
+		const auto current_letter{ std::tolower(word.at(wi)) };
+
 		// Number of occurrences of the current Letter.
 		// Counts down as Result values are assigned later.
-		auto count{ std::count_if(word.begin(), word.end(), [wc](const char chr) { return std::tolower(chr) == wc; }) };
+		auto count{ std::count(word.begin(), word.end(), current_letter) };
 
-		// Lambda Function that assigns the given Result to all letters that in the Guess
-		// that are/aren't in the same position as their corresponding letter in the Hidden Word.
-		const auto assign = [&](const bool same_position, const Result result)
+		// Lambda Function that assigns results based on whether or not letters are in the right position.
+		const auto assign = [&](const bool should_match, const Result result)
 		{
 			// For all Letters in the Guess.
 			for (std::size_t gi{}; gi < word.size(); ++gi)
@@ -157,17 +153,13 @@ Results WordleSim::make_guess(const std::string_view guess)
 				// All non-Invalid Results have been assigned, all else must be Invalid.
 				if (count == 0) break;
 
-				// Guess's current character as Lowercase.
-				const auto gc{ std::tolower(guess.at(gi)) };
-
-				// If the Letters match and their positions meet the given criteria...
-				if (((wi == gi) == same_position) && (wc == gc))
+				const auto wchar{ std::tolower(word.at(gi)) };
+				const auto gchar{ std::tolower(guess.at(gi)) };
+				if (gchar != current_letter) continue;
+				
+				if ((gchar == wchar) == should_match)
 				{
-					// Assign the Result to the given letter.
-					// max() is used to prevent overwriting Correct results with Exists.
-					feedback.at(gi).result = std::max(feedback.at(gi).result, result);
-					
-					// Decrease the remaining occurrences of the letter by 1.
+					feedback.at(gi).result = result;
 					--count;
 				}
 			}
@@ -196,6 +188,13 @@ std::size_t WordleSim::word_length() const noexcept
 std::size_t WordleSim::tries() const noexcept
 {
 	return try_count;
+}
+
+// -------------------------------------------------------------------------------------------------------------------------------- //
+
+std::string_view WordleSim::answer() const noexcept
+{
+	return word;
 }
 
 // ================================================================================================================================ //

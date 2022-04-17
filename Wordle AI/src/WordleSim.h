@@ -110,6 +110,9 @@ public: // Functions
 	// Returns the number of guesses made so far.
 	std::size_t tries() const noexcept;
 
+	// Returns the correct answer.
+	std::string_view answer() const noexcept;
+
 };
 
 // ================================================================================================================================ //
