@@ -1,7 +1,2 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
-
-/Wordle AI/.vs/Wordle AI/v17
-/.vs
-/Wordle AI/Wordle Sim/bin/x64/Debug
+﻿**/.vs
+**/bin

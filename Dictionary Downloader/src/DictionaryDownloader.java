@@ -26,10 +26,10 @@ public class DictionaryDownloader {
 
     public static void main(String[] args) throws Exception {
         System.out.println("\n\nGenerating Full Dictionary...");
-        generate_all("dictionary.txt");
+        generate_all("scrabble-dict.txt");
 
         System.out.println("\n\nGenerating 5-letter Dictionary...");
-        generate_by_length("dictionary5.txt", 5);
+        generate_by_length("scrabble-dict5.txt", 5);
 
         // Example Usage: [Words that start and end with the same letter]
         // generate_if("test.txt", (String word) -> word.charAt(0) == word.charAt(word.length() - 1));
@@ -53,7 +53,7 @@ public class DictionaryDownloader {
         Given a Filename and a Predicate, writes all words meeting the given condition to the output file.
     */
     public static void generate_if(String filename, Predicate<String> condition) throws Exception {
-        BufferedWriter outfile = new BufferedWriter(new FileWriter(String.format("Dictionaries/%s", filename)));
+        BufferedWriter outfile = new BufferedWriter(new FileWriter(String.format("../Dictionaries/%s", filename)));
         try {
             for (char letter = 'a'; letter <= 'z'; ++letter) {
                 System.out.printf("\nBrowsing '%c' words...\n", letter);
