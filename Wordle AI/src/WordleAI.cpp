@@ -1,10 +1,11 @@
 #include "WordleAI.h"
 
+#include <chrono>
+#include <fstream>
 #include <iostream>
 #include <algorithm>
 #include <random>
 #include <set>
-#include <chrono>
 
 #include "WordleSim.h"
 
@@ -146,7 +147,7 @@ void ai_play()
 	const DictionaryView view_g{ dict_view(dict_g) };
 
 
-	WordleSim sim{ dict_a };
+	WordleSim sim{ "aa" };
 	WordleAI ai{ view_g, sim.word_length() };
 
 	std::cout << "\n==== WORDLE AI ====\n";
@@ -160,7 +161,7 @@ void ai_play()
 		std::cout << "AI Dictionary Size: " << ai.dict.size() << "\n";
 
 		const Word guess{ ai.makeGuess(sim.tries()) };
-		std::cout << "  Guess: " << guess << '\n';
+		std::cout << "  Guess: " << *guess << '\n';
 
 		feedback = sim.make_guess(guess);
 		std::cout << "Results: " << feedback.str() << '\n';
@@ -180,6 +181,15 @@ void ai_play()
 }
 
 // ================================================================================================================================ //
+
+template <typename... Args>
+void print_out(std::ostream& console, std::ostream& file, Args&&... args)
+{
+	(console << ... << args);
+	//(file << ... << args);
+}
+
+// -------------------------------------------------------------------------------------------------------------------------------- //
 
 void ai_test()
 {
@@ -201,12 +211,18 @@ void ai_test()
 	const DictionaryView view_a{ dict_view(dict_a) };
 	const DictionaryView view_g{ dict_view(dict_g) };
 
+
+	std::ofstream out_file{ "tests/test-results.txt" };
+	if (!out_file)
+		throw std::runtime_error("Unable to create result-output file.");
+
+
 	std::size_t wins{};
 	std::uintmax_t total_turns{};
 
-	std::cout << "\n==== WORDLE AI TEST ====\n\n";
-
 	const auto start_time{ std::chrono::steady_clock::now() };
+
+	print_out(std::cout, out_file, "\n==== WORDLE AI TEST ====\n\n");
 
 	for (const std::string& word : dict_a)
 	{
@@ -226,7 +242,7 @@ void ai_test()
 
 		total_turns += sim.tries();
 
-		//std::cout << sim.answer() << ": " << sim.tries() << " turns. [" << (won ? "WIN" : "LOSE") << "]\n";
+		print_out(std::cout, out_file, sim.answer(), ": ", sim.tries(), " turns. [", (won ? "WIN" : "LOSE"), "]\n");
 	}
 
 	const auto end_time{ std::chrono::steady_clock::now() };
@@ -237,16 +253,16 @@ void ai_test()
 	const double avg_turns{ double(total_turns) / double(total_games) };
 	const double win_ratio{ 100.0 * double(wins) / double(total_games) };
 
-	std::cout << "\n==== WORDLE AI STATS ====\n\n";
-	std::cout << " Words: " << total_games << '\n';
-	std::cout << "  Wins: " << wins << '\n';
-	std::cout << "Losses: " << losses << '\n';
-	std::cout << " Win %: " << win_ratio << '%' << '\n';
-	std::cout << '\n';
-	std::cout << "Avg. Turns: " << avg_turns << '\n';
-	std::cout << '\n';
-	std::cout << "Took " << elapsed_time.count() << " second(s)" << '\n';
-	std::cout << "\n=========================\n\n";
+	print_out(std::cout, out_file, "\n==== WORDLE AI STATS ====\n\n");
+	print_out(std::cout, out_file, " Words: ", total_games, '\n');
+	print_out(std::cout, out_file, "  Wins: ", wins, '\n');
+	print_out(std::cout, out_file, "Losses: ", losses, '\n');
+	print_out(std::cout, out_file, " Win %: ", win_ratio, '%', '\n');
+	print_out(std::cout, out_file, '\n');
+	print_out(std::cout, out_file, "Avg. Turns: ", avg_turns, '\n');
+	print_out(std::cout, out_file, '\n');
+	print_out(std::cout, out_file, "Took ", elapsed_time.count(), " second(s)", '\n');
+	print_out(std::cout, out_file, "\n=========================\n\n");
 }
 
 // ================================================================================================================================ //
