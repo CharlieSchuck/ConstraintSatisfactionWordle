@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <random>
 #include <set>
+#include <map>
 
 #include "WordleSim.h"
 
@@ -42,6 +43,21 @@ std::string WordleAI::makeGuess([[maybe_unused]] const std::size_t try_count)
 	std::size_t topValue{};
 	std::string_view bestGuess{};
 
+	std::map<char, std::size_t> lettersMap;
+
+	for (const std::string& word : dict) {
+		//let's count the letters. 
+		for (const char ch : word) {
+			if (lettersMap.find(ch) == lettersMap.end()) {
+				lettersMap.insert({ ch, 0 });
+			}
+			
+			//yeah, increment the thing. woop!
+			lettersMap.find(ch)->second++;
+			
+		}
+	}
+
 	for (const std::string& word : dict)
 	{
 		std::string letters{};
@@ -54,7 +70,7 @@ std::string WordleAI::makeGuess([[maybe_unused]] const std::size_t try_count)
 			if (std::find(letters.begin(), letters.end(), ch) == letters.end())
 			{
 				letters.push_back(ch);
-				value += is_vowel(ch) ? 2 : 1;
+				value += lettersMap.find(ch)->second;
 			}
 		}
 
