@@ -85,41 +85,11 @@ Results::iterator Results::end() const noexcept
 
 // ================================================================================================================================ //
 
-// Attempts to load a Dictionary from the given file.
-Dictionary load_dictionary(const char* const filename)
-{
-	Dictionary dictionary{};
-	
-	std::ifstream file{ filename };
-	if (!file)
-		throw std::runtime_error("Unable to open Dictionary File.");
-
-	while (file.good())
-	{
-		std::string word{};
-		file >> word;
-			
-		if (!word.empty())
-			dictionary.push_back(word);
-	}
-	return dictionary;
-}
-
-// ================================================================================================================================ //
-
-// Constructor (picks a random word from the given Dictionary).
-WordleSim::WordleSim(const Dictionary& dictionary)
+// Constructor
+WordleSim::WordleSim(const std::string_view word)
 	:
-	word{}, try_count{}
-{
-	if (dictionary.empty())
-		throw std::runtime_error("Empty Dictionary was given.");
-
-	std::uniform_int_distribution<std::size_t> distr{ 0, dictionary.size() - 1 };
-	std::mt19937_64 rng{ std::random_device{}() };
-
-	word = dictionary.at(distr(rng));
-}
+	word{ word }, try_count{}
+{}
 
 // -------------------------------------------------------------------------------------------------------------------------------- //
 

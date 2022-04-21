@@ -6,6 +6,8 @@
 #include <string>
 #include <string_view>
 
+#include "Dictionary.h"
+
 // ================================================================================================================================ //
 
 // Feedback for each letter in a guess.
@@ -76,15 +78,6 @@ public: // Functions
 
 // ================================================================================================================================ //
 
-// Type Alias for a Dictionary.
-// Holds a collection of Words. Is assumed to be in All Lowercase and Alphabetical Order.
-using Dictionary = std::vector<std::string>;
-
-// Attempts to load a Dictionary from the given file.
-Dictionary load_dictionary(const char* const filename);
-
-// ================================================================================================================================ //
-
 // Used to Run a Simulation of a Wordle Game.
 class WordleSim
 {
@@ -98,8 +91,8 @@ private: // Variables
 
 public: // Functions
 
-	// Constructor (picks a random word from the given Dictionary).
-	WordleSim(const Dictionary& dictionary);
+	// Constructor
+	WordleSim(const std::string_view word);
 
 	// Takes a String as a Guess and returns a Results representing how accurate the guess was.
 	Results make_guess(const std::string_view guess);
