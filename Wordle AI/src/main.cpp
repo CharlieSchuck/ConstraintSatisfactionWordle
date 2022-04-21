@@ -20,7 +20,8 @@ int main()
 	try
 	{
 		// Should call a function from `testing.h` here.
-		test_ai(DictType::Scrabble, any_length);
+		test_ai(DictType::Wordle, {});
+
 		return 0;
 	}
 	// Log an error message if an exception occured.

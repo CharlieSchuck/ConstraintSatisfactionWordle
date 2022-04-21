@@ -23,7 +23,7 @@ public: // Functions
 	WordleAI(const DictionaryView& dict_g, const std::size_t word_length);
 
 	// Returns a Guess from the Dictionary.
-	const std::string& makeGuess([[maybe_unused]] const std::size_t try_count);
+	const std::string& makeGuess(const std::size_t try_count);
 
 	// Returns a Random Word from the Dictionary.
 	const std::string& randomGuess();

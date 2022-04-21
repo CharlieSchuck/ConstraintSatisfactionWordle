@@ -36,9 +36,9 @@ std::string Results::str() const
 	for (std::size_t i{}; i < size(); ++i)
 	{
 		// Result as Numerical Index.
-		const auto result_i{ std::size_t(feedbacks.at(i).result) };
+		const auto result_i{ std::size_t(feedbacks[i].result) };
 
-		tmp.at(i) = chars.at(result_i);
+		tmp[i] = chars[result_i];
 	}
 	return tmp;
 }
@@ -51,12 +51,22 @@ Feedback& Results::at(const std::size_t i)
 	return feedbacks.at(i);
 }
 
-// -------------------------------------------------------------------------------------------------------------------------------- //
-
 // Returns a const reference to the Result at index i.
 const Feedback& Results::at(const std::size_t i) const
 {
 	return feedbacks.at(i);
+}
+
+// -------------------------------------------------------------------------------------------------------------------------------- //
+
+Feedback& Results::operator[](const std::size_t i)
+{
+	return feedbacks[i];
+}
+
+const Feedback& Results::operator[](const std::size_t i) const
+{
+	return feedbacks[i];
 }
 
 // -------------------------------------------------------------------------------------------------------------------------------- //
@@ -106,9 +116,9 @@ Results WordleSim::make_guess(const std::string& guess)
 	for (std::size_t wi{}; wi < word.size(); ++wi)
 	{
 		// Assign letter from guess to feedback.
-		feedback.at(wi).letter = guess.at(wi);
+		feedback[wi].letter = guess[wi];
 		
-		const auto current_letter{ std::tolower(word.at(wi)) };
+		const auto current_letter{ std::tolower(word[wi]) };
 
 		// Number of occurrences of the current Letter.
 		// Counts down as Result values are assigned later.
@@ -123,13 +133,13 @@ Results WordleSim::make_guess(const std::string& guess)
 				// All non-Invalid Results have been assigned, all else must be Invalid.
 				if (count == 0) break;
 
-				const auto wchar{ std::tolower(word.at(gi)) };
-				const auto gchar{ std::tolower(guess.at(gi)) };
+				const auto wchar{ std::tolower(word[gi]) };
+				const auto gchar{ std::tolower(guess[gi]) };
 				if (gchar != current_letter) continue;
 				
 				if ((gchar == wchar) == should_match)
 				{
-					feedback.at(gi).result = result;
+					feedback[gi].result = result;
 					--count;
 				}
 			}

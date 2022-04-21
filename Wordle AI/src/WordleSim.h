@@ -11,7 +11,7 @@
 // ================================================================================================================================ //
 
 // Feedback for each letter in a guess.
-enum class Result
+enum class Result : unsigned char
 {
 	Invalid, // There are no more of the Letter.
 	Exists,  // Letter is in the wrong position.
@@ -59,11 +59,17 @@ public: // Functions
 	// Returns a Textual Representation of the results.
 	std::string str() const;
 
+	
 	// Returns a reference to the Result at index i.
 	Feedback& at(const std::size_t i);
 
 	// Returns a const reference to the Result at index i.
 	const Feedback& at(const std::size_t i) const;
+
+	Feedback& operator[](const std::size_t i);
+
+	const Feedback& operator[](const std::size_t i) const;
+
 
 	// Returns the number of letters in the guess.
 	std::size_t size() const noexcept;
