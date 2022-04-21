@@ -6,34 +6,7 @@
 
 // ================================================================================================================================ //
 
-#include <exception>
-#include <iostream>
-
-#include "WordleAI.h"
-#include "WordleSim.h"
-#include "ConsoleGame.h"
-
-// ================================================================================================================================ //
-
-/*
-	The Main function for the Wordle AI.
-*/
-void run_ai()
-{
-//	ai_play();
-	ai_test();
-}
-
-// -------------------------------------------------------------------------------------------------------------------------------- //
-
-/*
-	The Main function for the Wordle Sim.
-	Simply runs the `play_game` function from the ConsoleGame.h file.
-*/
-void run_sim()
-{
-	play_game();
-}
+#include "Testing.h"
 
 // ================================================================================================================================ //
 
@@ -46,7 +19,8 @@ int main()
 	// Attempt to launch the Wordle AI or Sim.
 	try
 	{
-		run_ai(); // Should call either `run_sim` or `run_ai` from here.
+		// Should call a function from `testing.h` here.
+		test_ai(DictType::Scrabble, any_length);
 		return 0;
 	}
 	// Log an error message if an exception occured.

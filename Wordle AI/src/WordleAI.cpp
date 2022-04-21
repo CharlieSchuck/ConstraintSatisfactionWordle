@@ -10,20 +10,11 @@
 
 // ================================================================================================================================ //
 
-// ==== OPTIONS ====
-// USE_WORDLE		: Plays using Wordle Dictionary.
-// USE_SCRABBLE_5	: Plays using 5-letter Scrabble Dictionary.
-// USE_SCRABBLE		: Plays using full Scrabble Dictionary.
-
-#define USE_WORDLE
-
-// ================================================================================================================================ //
-
 WordleAI::WordleAI(const Dictionary& dict_g, const std::size_t word_length)
 	:
 	dict{ dict_g }
 {
-	erase_if([=](const std::string& word) { return word.size() != word_length; });
+	dict.erase_if([=](const std::string& word) { return word.size() != word_length; });
 }
 
 // ================================================================================================================================ //
@@ -112,7 +103,7 @@ void WordleAI::updateDictionary(const Results& feedback, [[maybe_unused]] const 
 		{
 			case Result::Correct:
 			{
-				erase_if([=](const std::string& word) {
+				dict.erase_if([=](const std::string& word) {
 					return (word.at(i) != letter) || (std::count(word.begin(), word.end(), letter) < count);
 				});
 			}
@@ -120,7 +111,7 @@ void WordleAI::updateDictionary(const Results& feedback, [[maybe_unused]] const 
 
 			case Result::Exists:
 			{
-				erase_if([=](const std::string& word) {
+				dict.erase_if([=](const std::string& word) {
 					return (word.at(i) == letter) || (std::count(word.begin(), word.end(), letter) < count);
 				});
 			}
@@ -128,7 +119,7 @@ void WordleAI::updateDictionary(const Results& feedback, [[maybe_unused]] const 
 
 			case Result::Invalid:
 			{
-				erase_if([=](const std::string& word) {
+				dict.erase_if([=](const std::string& word) {
 					return (word.at(i) == letter) || (std::count(word.begin(), word.end(), letter) != count);
 				});
 			}
@@ -136,119 +127,6 @@ void WordleAI::updateDictionary(const Results& feedback, [[maybe_unused]] const 
 		}
 
 	}
-}
-
-// ================================================================================================================================ //
-
-void ai_play()
-{
-	// dict_a - Dictionary of Hidden Words that can be chosen.
-	// dict_g - Dictionary of Valid Word that can be guessed.
-#ifdef USE_WORDLE
-	const Dictionary dict_a{ load_dictionary("../Dictionaries/wordle-answers.txt") };
-	const Dictionary dict_g{ load_dictionary("../Dictionaries/wordle-guesses.txt") };
-#endif
-#ifdef USE_SCRABBLE_5
-	const Dictionary dict_a{ load_dictionary("../Dictionaries/scrabble-dict5.txt") };
-	const Dictionary dict_g{ load_dictionary("../Dictionaries/scrabble-dict5.txt") };
-#endif
-#ifdef USE_SCRABBLE
-	const Dictionary dict_a{ load_dictionary("../Dictionaries/scrabble-dict.txt") };
-	const Dictionary dict_g{ load_dictionary("../Dictionaries/scrabble-dict.txt") };
-#endif
-
-	WordleSim sim{ dict_a };
-	WordleAI ai{ dict_g, sim.word_length() };
-
-	std::cout << "\n==== WORDLE AI ====\n";
-	std::cout << "\nWord Length is " << sim.word_length() << '\n';
-
-	// Play continues until the Game is Won.
-	Results feedback{ sim.word_length() };
-	while (!feedback.is_won() /*&& (sim.tries() < 6)*/)
-	{
-		std::cout << "\n-- Turn " << (sim.tries() + 1) << " --\n";
-		std::cout << "AI Dictionary Size: " << ai.dict.size() << "\n";
-
-		const std::string guess{ ai.makeGuess(sim.tries()) };
-		std::cout << "  Guess: " << guess << '\n';
-
-		feedback = sim.make_guess(guess);
-		std::cout << "Results: " << feedback.str() << '\n';
-		
-		ai.updateDictionary(feedback, guess);
-	}
-	
-	if (feedback.is_won())
-	{
-		std::cout << "\n==== YOU WIN! ====\n\n";
-	}
-	else
-	{
-		std::cout << "\n==== YOU LOSE! ====\t (The Answer was: " << sim.answer() << ")\n\n";
-	}
-
-}
-
-// ================================================================================================================================ //
-
-void ai_test()
-{
-	// dict_a - Dictionary of Hidden Words that can be chosen.
-	// dict_g - Dictionary of Valid Word that can be guessed.
-#ifdef USE_WORDLE
-	const Dictionary dict_a{ load_dictionary("../Dictionaries/wordle-answers.txt") };
-	const Dictionary dict_g{ load_dictionary("../Dictionaries/wordle-guesses.txt") };
-#endif
-#ifdef USE_SCRABBLE_5
-	const Dictionary dict_a{ load_dictionary("../Dictionaries/scrabble-dict5.txt") };
-	const Dictionary dict_g{ load_dictionary("../Dictionaries/scrabble-dict5.txt") };
-#endif
-#ifdef USE_SCRABBLE
-	const Dictionary dict_a{ load_dictionary("../Dictionaries/scrabble-dict.txt") };
-	const Dictionary dict_g{ load_dictionary("../Dictionaries/scrabble-dict.txt") };
-#endif
-
-	std::size_t wins{};
-	std::uintmax_t total_turns{};
-
-	std::cout << "\n==== WORDLE AI TEST ====\n\n";
-
-	for (const std::string& word : dict_a)
-	{
-		WordleSim sim{ { word } };
-		WordleAI ai{ dict_g, sim.word_length() };
-
-		std::cout << sim.answer() << ": ";
-
-		Results feedback{ sim.word_length() };
-		while (!feedback.is_won())
-		{
-			const std::string guess{ ai.makeGuess(sim.tries()) };
-			feedback = sim.make_guess(guess);
-			ai.updateDictionary(feedback, guess);
-		}
-
-		const bool won{ sim.tries() <= 6 };
-		if (won) ++wins;
-
-		total_turns += sim.tries();
-
-		std::cout << sim.tries() << " turns. [" << (won ? "WIN" : "LOSE") << "]\n";
-	}
-
-	const std::size_t total_games{ dict_a.size() };
-	const std::size_t losses{ total_games - wins };
-	const double avg_turns{ double(total_turns) / double(total_games) };
-	const double win_ratio{ 100.0 * double(wins) / double(total_games) };
-
-	std::cout << "\n==== WORDLE AI STATS ====\n\n";
-	std::cout << " Words: " << total_games << '\n';
-	std::cout << "  Wins: " << wins << '\n';
-	std::cout << "Losses: " << losses << '\n';
-	std::cout << " Win %: " << win_ratio << '%' << '\n';
-	std::cout << "Avg. Turns: " << avg_turns << '\n';
-	std::cout << "\n=========================\n\n";
 }
 
 // ================================================================================================================================ //
