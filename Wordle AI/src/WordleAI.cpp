@@ -34,34 +34,32 @@ std::string WordleAI::makeGuess([[maybe_unused]] const std::size_t try_count)
 	std::size_t topValue{};
 	std::string_view bestGuess{};
 
-	std::map<char, std::size_t> lettersMap;
-
-	for (const std::string& word : dict) {
-		//let's count the letters. 
-		for (const char ch : word) {
-			if (lettersMap.find(ch) == lettersMap.end()) {
-				lettersMap.insert({ ch, 0 });
-			}
-			
-			//yeah, increment the thing. woop!
-			lettersMap.find(ch)->second++;
-			
-		}
-	}
+	size_t lettersMap[26]{};
 
 	for (const std::string& word : dict)
 	{
-		std::string letters{};
-		letters.reserve(word.size());
-
-		std::size_t value{};
-
+		//let's count the letters. 
 		for (const char ch : word)
 		{
-			if (std::find(letters.begin(), letters.end(), ch) == letters.end())
+			//yeah, increment the thing. woop!
+			++lettersMap[ch - 'a'];
+		}
+	}
+
+	inline constexpr auto test = sizeof(std::string);
+
+	for (const std::string& word : dict)
+	{
+		bool lettersFound[26]{};
+
+		std::size_t value{};
+		for (const char ch : word)
+		{
+			bool& found{ lettersFound[ch - 'a'] };
+			if (!found)
 			{
-				letters.push_back(ch);
-				value += lettersMap.find(ch)->second;
+				found = true;
+				value += lettersMap[ch - 'a'];
 			}
 		}
 
