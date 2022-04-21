@@ -10,16 +10,16 @@
 
 // ================================================================================================================================ //
 
-WordleAI::WordleAI(const Dictionary& dict_g, const std::size_t word_length)
+WordleAI::WordleAI(const DictionaryView& dict_g, const std::size_t word_length)
 	:
 	dict{ dict_g }
 {
-	dict.erase_if([=](const std::string& word) { return word.size() != word_length; });
+	dict.erase_if([=](const std::string* word) { return word->size() != word_length; });
 }
 
 // ================================================================================================================================ //
 
-std::string WordleAI::makeGuess([[maybe_unused]] const std::size_t try_count)
+const std::string& WordleAI::makeGuess(const std::size_t try_count)
 {
 	if (dict.empty())
 		throw std::runtime_error("AI Dictionary is empty.");
@@ -32,26 +32,26 @@ std::string WordleAI::makeGuess([[maybe_unused]] const std::size_t try_count)
 	// Let's assign one point for each unique consonant and two for each unique vowel.
 
 	std::size_t topValue{};
-	std::string_view bestGuess{};
+	const std::string* bestGuess{ dict.front() };
 
 	size_t lettersMap[26]{};
 
-	for (const std::string& word : dict)
+	for (const std::string* const word : dict)
 	{
 		//let's count the letters. 
-		for (const char ch : word)
+		for (const char ch : *word)
 		{
 			//yeah, increment the thing. woop!
 			++lettersMap[ch - 'a'];
 		}
 	}
 
-	for (const std::string& word : dict)
+	for (const std::string* const word : dict)
 	{
 		bool lettersFound[26]{};
 
 		std::size_t value{};
-		for (const char ch : word)
+		for (const char ch : *word)
 		{
 			bool& found{ lettersFound[ch - 'a'] };
 			if (!found)
@@ -68,21 +68,21 @@ std::string WordleAI::makeGuess([[maybe_unused]] const std::size_t try_count)
 		}
 	}
 
-	return std::string(bestGuess);
+	return *bestGuess;
 }
 
 // -------------------------------------------------------------------------------------------------------------------------------- //
 
-std::string WordleAI::randomGuess()
+const std::string& WordleAI::randomGuess()
 {
-	std::string guess{};
+	const std::string* guess{};
 	std::sample(dict.begin(), dict.end(), &guess, 1, std::random_device{});
-	return guess;
+	return *guess;
 }
 
 // ================================================================================================================================ //
 
-void WordleAI::updateDictionary(const Results& feedback, [[maybe_unused]] const std::string& guess)
+void WordleAI::updateDictionary(const Results& feedback)
 {
 	for (std::size_t i{}; i < feedback.size(); i++)
 	{
@@ -99,24 +99,24 @@ void WordleAI::updateDictionary(const Results& feedback, [[maybe_unused]] const 
 		{
 			case Result::Correct:
 			{
-				dict.erase_if([=](const std::string& word) {
-					return (word.at(i) != letter) || (std::count(word.begin(), word.end(), letter) < count);
+				dict.erase_if([=](const std::string* word) {
+					return (word->at(i) != letter) || (std::count(word->begin(), word->end(), letter) < count);
 				});
 			}
 			break;
 
 			case Result::Exists:
 			{
-				dict.erase_if([=](const std::string& word) {
-					return (word.at(i) == letter) || (std::count(word.begin(), word.end(), letter) < count);
+				dict.erase_if([=](const std::string* word) {
+					return (word->at(i) == letter) || (std::count(word->begin(), word->end(), letter) < count);
 				});
 			}
 			break;
 
 			case Result::Invalid:
 			{
-				dict.erase_if([=](const std::string& word) {
-					return (word.at(i) == letter) || (std::count(word.begin(), word.end(), letter) != count);
+				dict.erase_if([=](const std::string* word) {
+					return (word->at(i) == letter) || (std::count(word->begin(), word->end(), letter) != count);
 				});
 			}
 			break;

@@ -9,9 +9,10 @@ void play_ai(const DictType type, const std::size_t suggested_length, const std:
 {
 	const std::string word{ !suggested_word.empty() ? std::string(suggested_word) : pick_word(load_answers(type, suggested_length)) };
 	const Dictionary dict_g{ load_guesses(type, word.size()) };
+	const DictionaryView dict_v{ dict_g };
 
 	WordleSim sim{ pick_word(dict_g, word) };
-	WordleAI ai{ dict_g, sim.word_length() };
+	WordleAI ai{ dict_v, sim.word_length() };
 
 	std::cout << "\n==== WORDLE AI ====\n";
 	std::cout << "\nWord Length is " << sim.word_length() << '\n';
@@ -23,13 +24,13 @@ void play_ai(const DictType type, const std::size_t suggested_length, const std:
 		std::cout << "\n-- Turn " << (sim.tries() + 1) << " --\n";
 		std::cout << "AI Dictionary Size: " << ai.dict.size() << "\n";
 
-		const std::string guess{ ai.makeGuess(sim.tries()) };
+		const std::string& guess{ ai.makeGuess(sim.tries()) };
 		std::cout << "  Guess: " << guess << '\n';
 
 		feedback = sim.make_guess(guess);
 		std::cout << "Results: " << feedback.str() << '\n';
 
-		ai.updateDictionary(feedback, guess);
+		ai.updateDictionary(feedback);
 	}
 
 	if (feedback.is_won())
@@ -48,7 +49,8 @@ void test_ai(const DictType type, const std::size_t word_length)
 {
 	const Dictionary dict_a{ load_answers(type, word_length) };
 	const Dictionary dict_g{ load_guesses(type, word_length) };
-	
+	const DictionaryView dict_v{ dict_g };
+
 	Stats stats{};
 
 	std::cout << "\n==== WORDLE AI TEST ====\n\n";
@@ -58,16 +60,16 @@ void test_ai(const DictType type, const std::size_t word_length)
 	for (const std::string& word : dict_a)
 	{
 		WordleSim sim{ word };
-		WordleAI ai{ dict_g, sim.word_length() };
+		WordleAI ai{ dict_v, sim.word_length() };
 
 		std::cout << sim.answer() << ": ";
 
 		Results feedback{ sim.word_length() };
 		while (!feedback.is_won())
 		{
-			const std::string guess{ ai.makeGuess(sim.tries()) };
+			const std::string& guess{ ai.makeGuess(sim.tries()) };
 			feedback = sim.make_guess(guess);
-			ai.updateDictionary(feedback, guess);
+			ai.updateDictionary(feedback);
 		}
 
 		const bool won{ sim.tries() <= 6 };

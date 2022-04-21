@@ -64,7 +64,7 @@ public: // Functions
 
 	// Returns a const reference to the Result at index i.
 	const Feedback& at(const std::size_t i) const;
-	
+
 	// Returns the number of letters in the guess.
 	std::size_t size() const noexcept;
 	
@@ -84,7 +84,7 @@ class WordleSim
 private: // Variables
 
 	// The Word that is to be guessed.
-	std::string word;
+	const std::string& word;
 
 	// The number of guesses made so far.
 	std::size_t try_count;
@@ -92,10 +92,10 @@ private: // Variables
 public: // Functions
 
 	// Constructor
-	WordleSim(const std::string_view word);
+	WordleSim(const std::string& word);
 
 	// Takes a String as a Guess and returns a Results representing how accurate the guess was.
-	Results make_guess(const std::string_view guess);
+	Results make_guess(const std::string& guess);
 
 	// Returns the length of the word to be guessed.
 	std::size_t word_length() const noexcept;
@@ -104,7 +104,7 @@ public: // Functions
 	std::size_t tries() const noexcept;
 
 	// Returns the correct answer.
-	std::string_view answer() const noexcept;
+	const std::string& answer() const noexcept;
 
 };
 

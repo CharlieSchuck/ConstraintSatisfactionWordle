@@ -27,6 +27,30 @@ public:
 
 };
 
+// -------------------------------------------------------------------------------------------------------------------------------- //
+
+class DictionaryView : public std::vector<const std::string*>
+{
+public:
+
+	inline DictionaryView(const Dictionary& dict)
+	{
+		this->reserve(dict.size());
+		for (const auto& elem : dict)
+		{
+			this->push_back(&elem);
+		}
+	}
+
+	// Erases the words that meet the given condition from the dictionary.
+	template<class Predicate>
+	inline void erase_if(Predicate&& condition)
+	{
+		erase(std::remove_if(begin(), end(), condition), end());
+	}
+
+};
+
 // ================================================================================================================================ //
 
 enum class DictType { Wordle, Scrabble };

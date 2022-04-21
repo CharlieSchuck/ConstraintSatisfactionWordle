@@ -86,7 +86,7 @@ Results::iterator Results::end() const noexcept
 // ================================================================================================================================ //
 
 // Constructor
-WordleSim::WordleSim(const std::string_view word)
+WordleSim::WordleSim(const std::string& word)
 	:
 	word{ word }, try_count{}
 {}
@@ -94,7 +94,7 @@ WordleSim::WordleSim(const std::string_view word)
 // -------------------------------------------------------------------------------------------------------------------------------- //
 
 // Takes a String as a Guess and returns a Results representing how accurate the guess was.
-Results WordleSim::make_guess(const std::string_view guess)
+Results WordleSim::make_guess(const std::string& guess)
 {
 	if (guess.size() != word.size())
 		throw std::runtime_error("Guess size does not equal Word size.");
@@ -162,7 +162,7 @@ std::size_t WordleSim::tries() const noexcept
 
 // -------------------------------------------------------------------------------------------------------------------------------- //
 
-std::string_view WordleSim::answer() const noexcept
+const std::string& WordleSim::answer() const noexcept
 {
 	return word;
 }

@@ -15,23 +15,21 @@ class WordleAI
 public: // Variables
 
 	// The Dictionary holding valid guesses.
-	Dictionary dict;
+	DictionaryView dict;
 
 public: // Functions
 
 	// Constructs the AI with the given Dictionary.
-	WordleAI(const Dictionary& dict_g, const std::size_t word_length);
+	WordleAI(const DictionaryView& dict_g, const std::size_t word_length);
 
 	// Returns a Guess from the Dictionary.
-	std::string makeGuess(const std::size_t try_count);
+	const std::string& makeGuess([[maybe_unused]] const std::size_t try_count);
 
 	// Returns a Random Word from the Dictionary.
-	std::string randomGuess();
+	const std::string& randomGuess();
 
 	// Analyzes the Feedback on the given guess and updates the Dictionary accordingly.
-	void updateDictionary(const Results& feedback, const std::string& guess);
-
-
+	void updateDictionary(const Results& feedback);
 
 };
 
