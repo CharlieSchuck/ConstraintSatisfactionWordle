@@ -46,8 +46,6 @@ std::string WordleAI::makeGuess([[maybe_unused]] const std::size_t try_count)
 		}
 	}
 
-	inline constexpr auto test = sizeof(std::string);
-
 	for (const std::string& word : dict)
 	{
 		bool lettersFound[26]{};
