@@ -23,11 +23,23 @@ Dictionary load_dictionary(const char* const filename, const std::size_t word_le
 		const bool lengths_match{ (word_length == any_length) || (word.size() == word_length) };
 
 		if (!word.empty() && lengths_match)
-			dict.push_back(word);
+		{
+			if (std::find_if(word.begin(), word.end(), [](const unsigned char chr) { return chr > 0x7F; }) != word.end())
+			{
+				throw std::runtime_error("Non-ASCII characters found in word from dictionary.");
+			}
+			else
+			{
+				make_lowercase(word);
+				dict.push_back(word);
+			}
+		}
 	}
 
 	if (dict.empty())
 		throw std::runtime_error("Dictionary does not contain any words of the given length.");
+
+	std::sort(dict.begin(), dict.end());
 
 	return dict;
 }
