@@ -15,6 +15,11 @@ Dictionary load_dictionary(const char* const filename, const std::size_t word_le
 	if (!file)
 		throw std::runtime_error("Unable to open Dictionary File.");
 
+	constexpr auto is_normal = [](const unsigned char chr)
+	{
+		return (chr < 0x80) && std::isalpha(chr);
+	};
+
 	while (file.good())
 	{
 		std::string word{};
@@ -24,14 +29,14 @@ Dictionary load_dictionary(const char* const filename, const std::size_t word_le
 
 		if (!word.empty() && lengths_match)
 		{
-			if (std::find_if(word.begin(), word.end(), [](const unsigned char chr) { return chr > 0x7F; }) != word.end())
-			{
-				throw std::runtime_error("Non-ASCII characters found in word from dictionary.");
-			}
-			else
+			if (std::all_of(word.begin(), word.end(), is_normal))
 			{
 				make_lowercase(word);
 				dict.push_back(word);
+			}
+			else
+			{
+				throw std::runtime_error("Irregular characters found in word from dictionary.");
 			}
 		}
 	}
