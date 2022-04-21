@@ -155,15 +155,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\ConsoleGame.cpp" />
+    <ClCompile Include="src\Dictionary.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\WordleSim.cpp" />
     <ClCompile Include="src\WordleAI.cpp" />
+    <ClCompile Include="src\testing.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\ConsoleGame.h" />
+    <ClInclude Include="src\Dictionary.h" />
     <ClInclude Include="src\WordleSim.h" />
     <ClInclude Include="src\WordleAI.h" />
+    <ClInclude Include="src\testing.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\Dictionaries\scrabble-dict.txt" />
