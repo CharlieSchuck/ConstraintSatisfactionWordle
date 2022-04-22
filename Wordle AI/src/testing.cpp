@@ -1,5 +1,6 @@
 #include "testing.h"
 
+#include <fstream>
 #include <sstream>
 #include <chrono>
 
@@ -51,7 +52,9 @@ void test_ai(const DictType type, const std::size_t word_length)
 	const Dictionary dict_g{ load_guesses(type, word_length) };
 	const DictionaryView dict_v{ dict_g };
 
-	std::cout << "\n==== WORDLE AI TEST ====\n\n";
+	std::cout << "\n=========================== WORDLE AI TEST ===========================\n\n";
+
+	std::cout << "Testing AI on all words in '" << dictionary_name(type, word_length) << "'...\n";
 
 	const auto start_time{ std::chrono::steady_clock::now() };
 
@@ -68,8 +71,6 @@ void test_ai(const DictType type, const std::size_t word_length)
 			feedback = sim.make_guess(guess);
 			ai.updateDictionary(feedback);
 		}
-
-		//std::cout << sim.answer() << ": " << sim.tries() << " turns. [" << (won ? "WIN" : "LOSE") << "]\n";
 		
 		return static_cast<unsigned char>(sim.tries());
 	});
@@ -101,6 +102,48 @@ void test_ai(const DictType type, const std::size_t word_length)
 		<< '\n'
 		<< "======================================================================" << '\n'
 		<< '\n';
+
+	const std::string filename{ std::string("./Tests/") + dictionary_name(type, word_length) + std::string(" Results.txt")};
+	std::ofstream file{ filename };
+	
+	if (!file)
+	{
+		throw std::runtime_error("Unable to open output file.");
+	}
+	else
+	{
+		std::cout << "Writing results to '" << filename << "'...\n";
+		
+		file
+			<< "========================== WORDLE AI  STATS ==========================" << '\n'
+			<< '\n'
+			<< dictionary_name(type, word_length) << '\n'
+			<< "* Took " << elapsed_time.count() << " seconds." << '\n'
+			<< '\n'
+			<< "Overall:\t" << stats.total_games() << " games\t\t\t[" << stats.average_turns() << " Turn Avg.]" << '\n'
+			<< "   Wins:\t" << stats.wins << " games\t(" << stats.win_ratio() << "%)\t[" << stats.average_turns_wins() << " Turn Avg.]" << '\n'
+			<< " Losses:\t" << stats.losses << " games\t(" << stats.loss_ratio() << "%)\t[" << stats.average_turns_losses() << " Turn Avg.]" << '\n'
+			<< '\n'
+			<< "======================================================================" << '\n'
+			<< '\n';
+
+		file << "\n==== GAME RESULTS ====\n\n";
+
+		for (std::size_t i{}; i < dict_a.size(); ++i)
+		{
+			const std::string& word{ dict_a[i] };
+			const std::size_t tries{ static_cast<std::size_t>(games[i]) };
+			const bool won{ tries <= 6 };
+		
+			file << word << ": " << tries << " turns  [" << (won ? "WIN" : "LOSE") << "]\n";
+		}
+
+		file << "\n======================\n";
+		
+		std::cout << "Done!\n";
+	}
+
+	std::cout << "\n======================================================================\n\n";
 }
 
 // ================================================================================================================================ //

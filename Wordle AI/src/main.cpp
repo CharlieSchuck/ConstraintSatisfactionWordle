@@ -20,7 +20,9 @@ int main()
 	try
 	{
 		// Should call a function from `testing.h` here.
-		test_ai(DictType::Scrabble, {});
+		test_ai(DictType::Wordle, any_length);
+		test_ai(DictType::Scrabble, 5);
+		test_ai(DictType::Scrabble, any_length);
 
 		return 0;
 	}
