@@ -51,18 +51,15 @@ void test_ai(const DictType type, const std::size_t word_length)
 	const Dictionary dict_g{ load_guesses(type, word_length) };
 	const DictionaryView dict_v{ dict_g };
 
-	Stats stats{};
-
 	std::cout << "\n==== WORDLE AI TEST ====\n\n";
 
 	const auto start_time{ std::chrono::steady_clock::now() };
 
-	for (const std::string& word : dict_a)
+	std::vector<unsigned char> games(dict_a.size());
+	std::transform(std::execution::par_unseq, dict_a.begin(), dict_a.end(), games.begin(), [&](const std::string& word)
 	{
 		WordleSim sim{ word };
 		WordleAI ai{ dict_v, sim.word_length() };
-
-		std::cout << sim.answer() << ": ";
 
 		Results feedback{ sim.word_length() };
 		while (!feedback.is_won())
@@ -72,14 +69,20 @@ void test_ai(const DictType type, const std::size_t word_length)
 			ai.updateDictionary(feedback);
 		}
 
-		const bool won{ sim.tries() <= 6 };
+		//std::cout << sim.answer() << ": " << sim.tries() << " turns. [" << (won ? "WIN" : "LOSE") << "]\n";
+		
+		return static_cast<unsigned char>(sim.tries());
+	});
+
+	Stats stats{};
+	for (const auto tries : games)
+	{
+		const bool won{ tries <= 6 };
 
 		if (won)
-			stats.add_win(sim.tries());
+			stats.add_win(tries);
 		else
-			stats.add_loss(sim.tries());
-
-		std::cout << sim.tries() << " turns. [" << (won ? "WIN" : "LOSE") << "]\n";
+			stats.add_loss(tries);
 	}
 
 	const auto end_time{ std::chrono::steady_clock::now() };
