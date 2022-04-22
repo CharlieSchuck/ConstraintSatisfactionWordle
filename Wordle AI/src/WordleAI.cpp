@@ -14,7 +14,7 @@ WordleAI::WordleAI(const DictionaryView& dict_g, const std::size_t word_length)
 	:
 	dict{ dict_g }
 {
-	dict.erase_if([=](const std::string* word) { return word->size() != word_length; });
+	dict.erase_if([=](const std::string* const word) { return word->size() != word_length; });
 }
 
 // ================================================================================================================================ //
