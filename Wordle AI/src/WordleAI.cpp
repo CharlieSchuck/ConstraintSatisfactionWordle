@@ -2,9 +2,8 @@
 
 #include <iostream>
 #include <algorithm>
+#include <iterator>
 #include <random>
-#include <set>
-#include <map>
 
 #include "WordleSim.h"
 
@@ -12,7 +11,7 @@
 
 WordleAI::WordleAI(const DictionaryView& dict_g, const std::size_t word_length)
 	:
-	dict{ dict_g }
+	dict{ dict_g }, full_dict{ dict_g }, invalidated{}
 {
 	dict.erase_if([=](const std::string* const word) { return word->size() != word_length; });
 }
@@ -46,25 +45,64 @@ const std::string& WordleAI::makeGuess([[maybe_unused]] const std::size_t try_co
 		}
 	}
 
-	for (const std::string* const word : dict)
-	{
-		bool lettersFound[26]{};
+	const int remaining_turns{ 6 - int(try_count) };
+	const bool use_alt{ (try_count > 0) && (remaining_turns > 1) && (dict.size() > remaining_turns) };
 
-		std::size_t value{};
-		for (const char ch : *word)
+	if (use_alt)
+	{
+		for (const std::string* const word : full_dict)
 		{
-			bool& found{ lettersFound[ch - 'a'] };
-			if (!found)
+			if (word->size() != bestGuess->size()) continue;
+
+			bool lettersFound[26]{};
+
+			std::size_t value{};
+			for (const char ch : *word)
 			{
-				found = true;
-				value += lettersMap[ch - 'a'];
+				const std::size_t index{ std::size_t(ch - 'a') };
+
+				if (!invalidated[index])
+					value += lettersMap[index];
+
+				bool& found{ lettersFound[index] };
+				if (!found)
+				{
+					found = true;
+					value += 7;
+				}
+			}
+
+			if (value > topValue)
+			{
+				bestGuess = word;
+				topValue = value;
 			}
 		}
-
-		if (value > topValue)
+	}
+	else
+	{
+		for (const std::string* const word : dict)
 		{
-			bestGuess = word;
-			topValue = value;
+			bool lettersFound[26]{};
+
+			std::size_t value{};
+			for (const char ch : *word)
+			{
+				const std::size_t index{ std::size_t(ch - 'a') };
+
+				bool& found{ lettersFound[index] };
+				if (!found)
+				{
+					found = true;
+					value += lettersMap[index];
+				}
+			}
+
+			if (value > topValue)
+			{
+				bestGuess = word;
+				topValue = value;
+			}
 		}
 	}
 
@@ -90,6 +128,9 @@ void WordleAI::updateDictionary(const Results& feedback)
 		const char letter{ f.letter };
 		const Result result{ f.result };
 		
+		if (result == Result::Invalid)
+			invalidated[letter - 'a'] = true;
+
 		// Number of non-invalid occurrences of the current letter in the guess.
 		const auto count{ std::count_if(feedback.begin(), feedback.end(),
 			[=](const Feedback fb) { return (fb.letter == letter) && (fb.result != Result::Invalid); }

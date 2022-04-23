@@ -17,6 +17,10 @@ public: // Variables
 	// The Dictionary holding valid guesses.
 	DictionaryView dict;
 
+	const DictionaryView& full_dict;
+
+	bool invalidated[26];
+
 public: // Functions
 
 	// Constructs the AI with the given Dictionary.
