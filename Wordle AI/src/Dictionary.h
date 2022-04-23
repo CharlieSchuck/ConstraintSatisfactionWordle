@@ -80,7 +80,7 @@ Dictionary load_guesses(const DictType type, const std::size_t word_length = any
 std::string pick_word(const Dictionary& dict);
 
 // Verifies that the word is actually in the dictionary before returning it.
-std::string pick_word(const Dictionary& dict, const std::string_view word);
+const std::string& pick_word(const Dictionary& dict, const std::string& word);
 
 // ================================================================================================================================ //
 

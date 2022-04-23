@@ -91,7 +91,7 @@ std::string pick_word(const Dictionary& dict)
 
 // -------------------------------------------------------------------------------------------------------------------------------- //
 
-std::string pick_word(const Dictionary& dict, const std::string_view word)
+const std::string& pick_word(const Dictionary& dict, const std::string& word)
 {
 	if (!std::binary_search(dict.begin(), dict.end(), word))
 	{
@@ -99,7 +99,7 @@ std::string pick_word(const Dictionary& dict, const std::string_view word)
 	}
 	else
 	{
-		return std::string(word);
+		return word;
 	}
 }
 
