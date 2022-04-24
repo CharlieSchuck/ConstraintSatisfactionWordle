@@ -22,7 +22,7 @@ Make sure to compile and run the AI Program from the `AI Program/` directory.
 
 `src/` contains the source code for the AI.
 
-The AI Program will write the results of any tests run to the `Tests/` directory.
+The AI Program will write the results of any tests that are run to the `Tests/` directory.
 
 ### Important Note
 
