@@ -101,7 +101,7 @@ void test_ai(const DictType type, const std::size_t word_length)
 	std::ostringstream w_ratio{};
 	std::ostringstream l_ratio{};
 	w_ratio << '(' << stats.win_ratio() << "%)";
-	l_ratio << '(' << stats.win_ratio() << "%)";
+	l_ratio << '(' << stats.loss_ratio() << "%)";
 	
 	std::ostringstream o_turns{};
 	std::ostringstream w_turns{};
