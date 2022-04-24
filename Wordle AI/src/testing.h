@@ -30,6 +30,9 @@ void prompt_user();
 
 // ================================================================================================================================ //
 
+/*
+	A utility class for storing the statistics of AI benchmarks.
+*/
 struct Stats
 {
 public: // Variables

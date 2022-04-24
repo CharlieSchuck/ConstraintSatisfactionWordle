@@ -12,11 +12,11 @@
 
 /*
 	The main function where the program starts.
-	This Program tests the Wordle Sim by letting the user play it in the console.
+	This Program tests the Wordle AI by letting the user enter commands for it in the console.
 */
 int main()
 {
-	// Attempt to launch the Wordle AI or Sim.
+	// Attempt to launch the Wordle AI in an interactive console.
 	try
 	{
 		prompt_user();

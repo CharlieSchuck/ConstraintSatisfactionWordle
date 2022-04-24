@@ -12,7 +12,6 @@
 
 /*
 	Holds a collection of Words.
-	Is assumed to be in All Lowercase and Alphabetical Order.
 */
 class Dictionary : public std::vector<std::string>
 {
@@ -29,10 +28,15 @@ public:
 
 // -------------------------------------------------------------------------------------------------------------------------------- //
 
+/*
+	Holds a collection of Pointers to Words.
+	Its purpose is to be Dictionary that is cheaper/faster to copy around and remove elements from.
+*/
 class DictionaryView : public std::vector<const std::string*>
 {
 public:
 
+	// Constructs a DictionaryView of pointers to the elements in the given Dictionary.
 	inline DictionaryView(const Dictionary& dict)
 	{
 		this->reserve(dict.size());
@@ -53,6 +57,7 @@ public:
 
 // ================================================================================================================================ //
 
+// Dictionary Type.
 enum class DictType { Wordle, Scrabble };
 
 // -------------------------------------------------------------------------------------------------------------------------------- //
@@ -101,6 +106,7 @@ inline void make_uppercase(std::string& str)
 
 // ================================================================================================================================ //
 
+// Returns a Descriptive Name for the given dictionary/length.
 inline std::string dictionary_name(const DictType type, const std::size_t word_length)
 {
 	const std::string length_str{ word_length == any_length ? "All" : std::to_string(word_length) };

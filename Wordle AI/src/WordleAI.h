@@ -10,6 +10,10 @@
 
 // ================================================================================================================================ //
 
+/*
+	The AI Class.
+	It maintains a dictionary of valid guesses (among other info) in order to make "optimal guesses" and solve Wordle Puzzles.
+*/
 class WordleAI
 {
 public: // Variables
@@ -17,8 +21,10 @@ public: // Variables
 	// The Dictionary holding valid guesses.
 	DictionaryView dict;
 
+	// The Original DictionaryView that was used to start the AI.
 	const DictionaryView& full_dict;
 
+	// Array of characters that have been invalidated in the current game.
 	bool invalidated[26];
 
 public: // Functions
@@ -32,7 +38,7 @@ public: // Functions
 	// Returns a Random Word from the Dictionary.
 	const std::string& randomGuess();
 
-	// Analyzes the Feedback on the given guess and updates the Dictionary accordingly.
+	// Analyzes the Feedback from the Results of the previous guess and updates the Dictionary accordingly.
 	void updateDictionary(const Results& feedback);
 
 };
