@@ -411,10 +411,6 @@ void prompt_user()
 		{
 			test_ai(type, length);
 		}
-		else
-		{
-			
-		}
 	}
 }
 
