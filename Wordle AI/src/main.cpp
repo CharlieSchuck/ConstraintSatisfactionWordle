@@ -19,23 +19,19 @@ int main()
 	// Attempt to launch the Wordle AI or Sim.
 	try
 	{
-		// Should call a function from `testing.h` here.
-		test_ai(DictType::Wordle, any_length);
-		test_ai(DictType::Scrabble, 5);
-		test_ai(DictType::Scrabble, any_length);
-
+		prompt_user();
 		return 0;
 	}
 	// Log an error message if an exception occured.
 	catch (const std::exception& ex)
 	{
-		std::cerr << "\n\nERROR!\n" << ex.what() << "\n\n";
+		std::cerr << "\n\nFATAL ERROR!\n" << ex.what() << "\n\n";
 		return 1;
 	}
 	// Log an error message if an unknown exception occured.
 	catch (...)
 	{
-		std::cerr << "\n\nUNKNOWN ERROR!\n\n";
+		std::cerr << "\n\nUNKNOWN FATAL ERROR!\n\n";
 		return 2;
 	}
 }

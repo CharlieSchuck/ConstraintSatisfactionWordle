@@ -23,6 +23,11 @@ void test_ai(const DictType type = default_dictionary, const std::size_t word_le
 // Launches a Console Game version of Wordle for the User to Play.
 void play_sim(const DictType type = default_dictionary, const std::size_t suggested_length = default_length, const std::string_view suggested_word = "");
 
+// -------------------------------------------------------------------------------------------------------------------------------- //
+
+// Displays a Help Message and allows the user to select how they want to run the AI.
+void prompt_user();
+
 // ================================================================================================================================ //
 
 struct Stats
@@ -33,6 +38,26 @@ public: // Variables
 	std::uintmax_t losses;
 	std::uintmax_t win_turns;
 	std::uintmax_t loss_turns;
+
+public: // Functions
+
+	constexpr void add_win(const std::uintmax_t turns) noexcept
+	{
+		++wins;
+		win_turns += turns;
+	}
+
+	constexpr void add_loss(const std::uintmax_t turns) noexcept
+	{
+		++losses;
+		loss_turns += turns;
+	}
+
+	template <typename T>
+	static constexpr double divide(const T a, const T b) noexcept
+	{
+		return (b == 0) ? (0.0) : (double(a) / double(b));
+	}
 
 public: // Getters
 
@@ -48,41 +73,27 @@ public: // Getters
 
 	constexpr double win_ratio() const noexcept
 	{
-		return 100.0 * double(wins) / double(total_games());
+		return 100.0 * divide(wins, total_games());
 	}
 
 	constexpr double loss_ratio() const noexcept
 	{
-		return 100.0 * double(losses) / double(total_games());
+		return 100.0 * divide(losses, total_games());
 	}
 
 	constexpr double average_turns() const noexcept
 	{
-		return double(total_turns()) / double(total_games());
+		return divide(total_turns(), total_games());
 	}
 	
 	constexpr double average_turns_wins() const noexcept
 	{
-		return double(win_turns) / double(wins);
+		return divide(win_turns, wins);
 	}
 
 	constexpr double average_turns_losses() const noexcept
 	{
-		return double(loss_turns) / double(losses);
-	}
-
-public: // Functions
-
-	constexpr void add_win(const std::uintmax_t turns) noexcept
-	{
-		++wins;
-		win_turns += turns;
-	}
-
-	constexpr void add_loss(const std::uintmax_t turns) noexcept
-	{
-		++losses;
-		loss_turns += turns;
+		return divide(loss_turns, losses);
 	}
 
 };
