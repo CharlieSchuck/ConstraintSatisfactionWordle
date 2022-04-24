@@ -390,10 +390,21 @@ void prompt_user()
 		}
 
 		const std::size_t length{ is_number ? std::stoi(arg) : any_length };
+		const Dictionary dict_g{ load_guesses(type, length, true) };
+		if (dict_g.empty() || (is_number && length == 0))
+		{
+			std::cout << "ERROR: No words of length " << length << " are in the specified dictionary.\n";
+			continue;
+		}
 
 		if (command == "play")
 		{
 			const std::string word{ is_word ? arg : "" };
+			if (is_word && !std::binary_search(dict_g.begin(), dict_g.end(), word))
+			{
+				std::cout << "ERROR: Given word '" << arg << "' could not be found in the specified dictionary.\n";
+				continue;
+			}
 			play_ai(type, length, word);
 		}
 		else if (command == "test")

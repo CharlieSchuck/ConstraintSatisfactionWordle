@@ -65,13 +65,13 @@ inline constexpr std::size_t any_length{ 0 };
 // ================================================================================================================================ //
 
 // Attempts to load a Dictionary from the given file.
-Dictionary load_dictionary(const char* const filename, const std::size_t word_length = any_length);
+Dictionary load_dictionary(const char* const filename, const std::size_t word_length = any_length, const bool allow_empty = false);
 
 // Loads a Dictionary of Words that can be chosen as the Answer.
-Dictionary load_answers(const DictType type, const std::size_t word_length = any_length);
+Dictionary load_answers(const DictType type, const std::size_t word_length = any_length, const bool allow_empty = false);
 
 // Loads a Dictionary of Words that are valid guesses.
-Dictionary load_guesses(const DictType type, const std::size_t word_length = any_length);
+Dictionary load_guesses(const DictType type, const std::size_t word_length = any_length, const bool allow_empty = false);
 
 // ================================================================================================================================ //
 

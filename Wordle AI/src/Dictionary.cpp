@@ -7,7 +7,7 @@
 
 // ================================================================================================================================ //
 
-Dictionary load_dictionary(const char* const filename, const std::size_t word_length)
+Dictionary load_dictionary(const char* const filename, const std::size_t word_length, const bool allow_empty)
 {
 	Dictionary dict{};
 
@@ -41,7 +41,7 @@ Dictionary load_dictionary(const char* const filename, const std::size_t word_le
 		}
 	}
 
-	if (dict.empty())
+	if (dict.empty() && !allow_empty)
 		throw std::runtime_error("Dictionary does not contain any words of the given length.");
 
 	std::sort(dict.begin(), dict.end());
@@ -51,24 +51,24 @@ Dictionary load_dictionary(const char* const filename, const std::size_t word_le
 
 // -------------------------------------------------------------------------------------------------------------------------------- //
 
-Dictionary load_answers(const DictType type, const std::size_t word_length)
+Dictionary load_answers(const DictType type, const std::size_t word_length, const bool allow_empty)
 {
 	switch (type)
 	{
-	case DictType::Wordle:   return load_dictionary("../Dictionaries/wordle-answers.txt", word_length);
-	case DictType::Scrabble: return load_dictionary("../Dictionaries/scrabble-dict.txt", word_length);
+	case DictType::Wordle:   return load_dictionary("../Dictionaries/wordle-answers.txt", word_length, allow_empty);
+	case DictType::Scrabble: return load_dictionary("../Dictionaries/scrabble-dict.txt", word_length, allow_empty);
 	}
 	throw std::runtime_error("Invalid Answers Dictionary.");
 }
 
 // -------------------------------------------------------------------------------------------------------------------------------- //
 
-Dictionary load_guesses(const DictType type, const std::size_t word_length)
+Dictionary load_guesses(const DictType type, const std::size_t word_length, const bool allow_empty)
 {
 	switch (type)
 	{
-	case DictType::Wordle:   return load_dictionary("../Dictionaries/wordle-guesses.txt", word_length);
-	case DictType::Scrabble: return load_dictionary("../Dictionaries/scrabble-dict.txt", word_length);
+	case DictType::Wordle:   return load_dictionary("../Dictionaries/wordle-guesses.txt", word_length, allow_empty);
+	case DictType::Scrabble: return load_dictionary("../Dictionaries/scrabble-dict.txt", word_length, allow_empty);
 	}
 	throw std::runtime_error("Invalid Guesses Dictionary.");
 }
