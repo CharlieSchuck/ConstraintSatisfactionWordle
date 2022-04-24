@@ -1,6 +1,24 @@
 # Wordle AI
 
-[ Insert Description Here ]
+## Authors
+* Charles Schuck
+* Eric Grandizio
+
+## About
+
+This folder contains the code for our Wordle-playing AI Program.
+
+When the program is run, it will display a "help message" detailing how to use it.
+
+The AI plays a simulated version of Wordle until it guesses the correct word.
+
+It does so by maintaining a list of possible words, and removing said words from the list based on the feedback it gets for its guesses.
+
+Even so, in order to actually win the game, it must guess right in 6 turns or less.
+
+On any given turn, it could have tens of hundreds of possible words to guess from.
+
+As such, the AI employs some heuristics to choose words it thinks will give it the most information.
 
 ## Compiling on Linux
 
@@ -23,6 +41,7 @@ Make sure to compile and run the AI Program from the `AI Program/` directory.
 `src/` contains the source code for the AI.
 
 The AI Program will write the results of any tests that are run to the `Tests/` directory.
+If the directory does not exist, the program will terminate upon trying 
 
 ### Important Note
 
