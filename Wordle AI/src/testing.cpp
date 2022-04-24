@@ -381,8 +381,8 @@ void prompt_user()
 			continue;
 		}
 
-		const bool is_number{ !arg.empty() && std::all_of(arg.begin(), arg.end(), std::isdigit) };
-		const bool is_word{ !arg.empty() && std::all_of(arg.begin(), arg.end(), std::isalpha) };
+		const bool is_number{ !arg.empty() && std::all_of(arg.begin(), arg.end(), [](const char chr) { return std::isdigit(chr); }) };
+		const bool is_word{ !arg.empty() && std::all_of(arg.begin(), arg.end(), [](const char chr) { return std::isalpha(chr); }) };
 		if (!arg.empty() && !is_number && !is_word)
 		{
 			std::cout << "ERROR: Invalid argument specified.\n";
