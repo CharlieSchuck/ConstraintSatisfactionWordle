@@ -7,16 +7,16 @@
 The AI Program expects a very particular file structure in order to work properly.
 ```
 WordleAI/
-├── Dictionaries/
-│   ├── scrabble-dict.txt
-│   ├── wordle-answers.txt
-│   └── wordle-guesses.txt
-└── AI Program/
-    ├── src/
-    │   └── ...
-    ├── Tests/
-    │   └── ...
-    └── Program.exe
+├── AI Program/
+│   ├── src/
+│   │   └── ...
+│   ├── Tests/
+│   │   └── ...
+│   └── Program.exe
+└── Dictionaries/
+    ├── scrabble-dict.txt
+    ├── wordle-answers.txt
+    └── wordle-guesses.txt
 ```
 Make sure to compile and run the AI Program from the `AI Program/` directory.
 
