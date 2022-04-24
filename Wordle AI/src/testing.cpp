@@ -5,6 +5,11 @@
 #include <sstream>
 #include <chrono>
 
+// This Macro can be set externally with compilation flags.
+#ifndef NO_MULTITHREADING
+#  include <execution>
+#endif
+
 // ================================================================================================================================ //
 
 void play_ai(const DictType type, const std::size_t suggested_length, const std::string_view suggested_word)
@@ -60,7 +65,12 @@ void test_ai(const DictType type, const std::size_t word_length)
 	const auto start_time{ std::chrono::steady_clock::now() };
 
 	std::vector<unsigned char> games(dict_a.size());
+
+#ifndef NO_MULTITHREADING
 	std::transform(std::execution::par_unseq, dict_a.begin(), dict_a.end(), games.begin(), [&](const std::string& word)
+#else
+	std::transform(dict_a.begin(), dict_a.end(), games.begin(), [&](const std::string& word)
+#endif
 	{
 		WordleSim sim{ word };
 		WordleAI ai{ dict_v, sim.word_length() };
