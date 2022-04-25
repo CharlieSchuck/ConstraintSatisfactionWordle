@@ -41,7 +41,8 @@ Make sure to compile and run the AI Program from the `AI Program/` directory.
 `src/` contains the source code for the AI.
 
 The AI Program will write the results of any tests that are run to the `Tests/` directory.
-If the directory does not exist, the program will terminate upon trying 
+
+If the directory does not exist, the program will terminate upon trying to create the file.
 
 ### Important Note
 
