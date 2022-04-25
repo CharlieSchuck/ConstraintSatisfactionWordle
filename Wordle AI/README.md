@@ -20,7 +20,7 @@ On any given turn, it could have tens of hundreds of possible words to guess fro
 
 As such, the AI employs some heuristics to choose words it thinks will give it the most information.
 
-## Compiling on Linux
+## Running the Program
 
 The AI Program expects a very particular file structure in order to work properly.
 ```
@@ -44,7 +44,7 @@ The AI Program will write the results of any tests that are run to the `Tests/` 
 
 If the directory does not exist, the program will terminate upon trying to create the file.
 
-### Important Note
+## Compiling on Linux
 
 This project uses the standard `<execution>` header from C++17 in order to use Multithreading to speed up the Benchmarking code.
 
