@@ -32,6 +32,7 @@ const std::string& WordleAI::makeGuess([[maybe_unused]] const std::size_t try_co
 
 	std::size_t topValue{};
 	const std::string* bestGuess{ dict.front() };
+	const std::size_t word_length{ bestGuess->size() };
 
 	size_t lettersMap[26]{};
 
@@ -46,13 +47,13 @@ const std::string& WordleAI::makeGuess([[maybe_unused]] const std::size_t try_co
 	}
 
 	const int remaining_turns{ 6 - int(try_count) };
-	const bool use_alt{ (try_count > 0) && (remaining_turns > 1) && (dict.size() > remaining_turns) };
+	const bool use_alt{ (remaining_turns > 1) && (dict.size() > remaining_turns) };
 
 	if (use_alt)
 	{
 		for (const std::string* const word : full_dict)
 		{
-			if (word->size() != bestGuess->size()) continue;
+			if (word->size() != word_length) continue;
 
 			bool lettersFound[26]{};
 
@@ -61,10 +62,13 @@ const std::string& WordleAI::makeGuess([[maybe_unused]] const std::size_t try_co
 			{
 				const std::size_t index{ std::size_t(ch - 'a') };
 
-				if (!invalidated[index])
-					value += lettersMap[index];
-
 				bool& found{ lettersFound[index] };
+
+				if (!invalidated[index])
+				{
+					value += lettersMap[index] / (found ? 2 : 1);
+				}
+
 				if (!found)
 				{
 					found = true;
@@ -72,7 +76,7 @@ const std::string& WordleAI::makeGuess([[maybe_unused]] const std::size_t try_co
 				}
 			}
 
-			if (value > topValue)
+			if (value >= topValue)
 			{
 				bestGuess = word;
 				topValue = value;
