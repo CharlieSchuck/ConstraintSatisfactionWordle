@@ -3,7 +3,7 @@
 Scrabble Dictionary - 5
 * Took 0.532194 seconds.
 
-Overall:	9330 games			[4.91661 Turn Avg.]
+Overall:	9330 games				[4.91661 Turn Avg.]
    Wins:	8701 games	(93.2583%)	[4.7144 Turn Avg.]
  Losses:	629 games	(6.74169%)	[7.71383 Turn Avg.]
 

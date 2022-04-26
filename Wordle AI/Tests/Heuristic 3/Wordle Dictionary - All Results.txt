@@ -3,7 +3,7 @@
 Wordle Dictionary - All
 * Took 0.196779 seconds.
 
-Overall:	2309 games			[4.91382 Turn Avg.]
+Overall:	2309 games				[4.91382 Turn Avg.]
    Wins:	2208 games	(95.6258%)	[4.80118 Turn Avg.]
  Losses:	101 games	(4.37419%)	[7.37624 Turn Avg.]
 
