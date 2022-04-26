@@ -23,8 +23,6 @@ const std::string& WordleAI::makeGuess([[maybe_unused]] const std::size_t try_co
 	if (dict.empty())
 		throw std::runtime_error("AI Dictionary is empty.");
 
-	// Let's assign one point for each unique consonant and two for each unique vowel.
-
 	std::size_t topValue{};
 	const std::string* bestGuess{ dict.front() };
 	const std::size_t word_length{ bestGuess->size() };
