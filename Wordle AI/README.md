@@ -16,7 +16,7 @@ It does so by maintaining a list of possible words, and removing said words from
 
 Even so, in order to actually win the game, it must guess right in 6 turns or less.
 
-On any given turn, it could have tens of hundreds of possible words to guess from.
+On any given turn, it could have tens or hundreds of possible words to guess from.
 
 As such, the AI employs some heuristics to choose words it thinks will give it the most information.
 
