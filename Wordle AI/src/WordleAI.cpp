@@ -23,11 +23,6 @@ const std::string& WordleAI::makeGuess([[maybe_unused]] const std::size_t try_co
 	if (dict.empty())
 		throw std::runtime_error("AI Dictionary is empty.");
 
-	constexpr auto is_vowel = [](const char c)
-	{
-		return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
-	};
-
 	// Let's assign one point for each unique consonant and two for each unique vowel.
 
 	std::size_t topValue{};
@@ -46,8 +41,10 @@ const std::string& WordleAI::makeGuess([[maybe_unused]] const std::size_t try_co
 		}
 	}
 
-	const int remaining_turns{ 6 - int(try_count) };
-	const bool use_alt{ (remaining_turns > 1) && (dict.size() > remaining_turns) };
+	const std::ptrdiff_t remaining_turns{ 6 - std::ptrdiff_t(try_count) };
+	const std::ptrdiff_t dict_size{ std::ptrdiff_t(dict.size()) };
+
+	const bool use_alt{ (remaining_turns > 1) && (dict_size > remaining_turns) };
 
 	if (use_alt)
 	{
